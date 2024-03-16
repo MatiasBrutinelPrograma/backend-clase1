@@ -3,6 +3,8 @@ const fs = require('fs');
 class ProductManager {
   constructor(path) {
     this.path = path;
+    this.products = [];
+    this.id = 0;
   }
 
   addProduct(product) {
@@ -11,61 +13,75 @@ class ProductManager {
       throw new Error('Todos los campos son obligatorios');
     }
 
-    // Leer productos actuales del archivo
-    let products = this._readProducts();
+    // Validar que no se repita el campo "code"
+    const existingProduct = this.products.find(p => p.code === product.code);
+    if (existingProduct) {
+      throw new Error('El código del producto ya existe');
+    }
 
     // Asignar ID autoincrementable
-    const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
-    product.id = maxId + 1;
+    this.id++;
+    product.id = this.id;
 
     // Agregar el producto al array
-    products.push(product);
+    this.products.push(product);
 
-    // Escribir productos actualizados al archivo
-    this._writeProducts(products);
+    // Guardar los cambios en el archivo JSON (con CRLF)
+    this._saveProducts();
   }
 
   getProducts() {
-    // Devolver todos los productos del archivo
-    return this._readProducts();
+    // Leer el archivo JSON y convertirlo a un array de objetos
+    const productsData = JSON.parse(fs.readFileSync(this.path, 'utf8'));
+    this.products = productsData;
+
+    return this.products;
   }
 
   getProductById(id) {
-    // Obtener producto por ID del archivo
-    const products = this._readProducts();
-    const product = products.find(p => p.id === id);
+    // Buscar el producto con el ID especificado
+    const product = this.products.find(p => p.id === id);
+
+    // Si no se encuentra el producto, devolver un error
     if (!product) {
       throw new Error('Producto no encontrado');
     }
+
     return product;
   }
 
-  updateProduct(id, updatedFields) {
-    // Leer productos actuales del archivo
-    let products = this._readProducts();
+  updateProduct(id, updatedProduct) {
+    // Buscar el producto con el ID especificado
+    const product = this.products.find(p => p.id === id);
 
-    // Encontrar el índice del producto a actualizar
-    const index = products.findIndex(p => p.id === id);
-    if (index === -1) {
+    // Si no se encuentra el producto, lanzar un error
+    if (!product) {
       throw new Error('Producto no encontrado');
     }
 
-    // Actualizar el producto con los campos proporcionados
-    products[index] = { ...products[index], ...updatedFields };
+    // Actualizar el producto con la nueva información
+    for (const key in updatedProduct) {
+      product[key] = updatedProduct[key];
+    }
 
-    // Escribir productos actualizados al archivo
-    this._writeProducts(products);
+    // Guardar los cambios en el archivo JSON (con CRLF)
+    this._saveProducts();
   }
 
   deleteProduct(id) {
-    // Leer productos actuales del archivo
-    let products = this._readProducts();
+    // Buscar el producto con el ID especificado
+    const productIndex = this.products.findIndex(p => p.id === id);
 
-    // Filtrar productos para excluir el producto con el ID proporcionado
-    products = products.filter(p => p.id !== id);
+    // Si no se encuentra el producto, lanzar un error
+    if (productIndex === -1) {
+      throw new Error('Producto no encontrado');
+    }
 
-    // Escribir productos actualizados al archivo
-    this._writeProducts(products);
+    // Eliminar el producto del array
+    this.products.splice(productIndex, 1);
+
+    // Guardar los cambios en el archivo JSON (con CRLF)
+    this._saveProducts();
   }
 
   _validateProduct(product) {
@@ -75,22 +91,16 @@ class ProductManager {
       product.price &&
       product.thumbnail &&
       product.code &&
-      product.stock !== undefined
+      product.stock
     );
   }
 
-  _readProducts() {
-    try {
-      const data = fs.readFileSync(this.path, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      // Si el archivo no existe o hay un error al leerlo, devolver un array vacío
-      return [];
-    }
-  }
+  _saveProducts() {
+    // Convertir el array de productos a un string JSON (con CRLF)
+    const productsData = JSON.stringify(this.products, null, 2);
 
-  _writeProducts(products) {
-    fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
+    // Guardar el string JSON en el archivo (con CRLF)
+    fs.writeFileSync(this.path, productsData + '\r\n');
   }
 }
 
