@@ -53,9 +53,6 @@ try {
 }
 
 // **Prueba: Eliminar un producto**
-try {
-  productManager.deleteProduct(productId);
-  console.log('Producto eliminado con éxito');
-} catch (error) {
-  console.error('Error al eliminar producto:', error.message);
-}
+// **Elimina el comentario para eliminar el producto**
+// productManager.deleteProduct(productId);
+// console.log('Producto eliminado con éxito');
