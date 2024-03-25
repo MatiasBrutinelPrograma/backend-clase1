@@ -1,12 +1,12 @@
 {
-  "name": "test_1",
+  "name": "servidor-con-express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Servidor Express para gestionar productos",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

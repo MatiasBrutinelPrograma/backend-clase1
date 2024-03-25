@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Sillón Acapulco",
+    "description": "Sillón de mimbre tejido a mano, ideal para patios y jardines.",
+    "price": 1200,
+    "thumbnail": "https://ejemplo.com/sillon_acapulco.jpg",
+    "code": "SILL123",
+    "stock": 20,
+    "category": "Exterior",
+    "materiales": ["Mimbre"],
+    "dimensiones": {
+      "ancho": 80,
+      "alto": 100,
+      "profundidad": 80
+    },
+    "colores": ["Marrón", "Blanco"]
+  },
+  {
+    "title": "Mesa de comedor Oslo",
+    "description": "Mesa de comedor extensible de madera maciza, perfecta para reuniones familiares.",
+    "price": 1800,
+    "thumbnail": "https://mijormi.vteximg.com.br/arquivos/ids/179362-1000-1332/Mesa-de-comedor-de-madera-OSLO-210-X-110-Landmark-02.jpg?v=638156111315570000",
+    "code": "MESA456",
+    "stock": 15,
+    "category": "Comedor",
+    "materiales": ["Madera maciza de pino"],
+    "dimensiones": {
+      "largo": 180,
+      "ancho": 90,
+      "alto": 75
+    },
+    "colores": ["Nogal", "Blanco"]
+  },
+  {
+    "title": "Cama Nórdica",
+    "description": "Cama de diseño nórdico con somier de láminas, perfecta para dormitorios modernos.",
+    "price": 1500,
+    "thumbnail": "https://static.wixstatic.com/media/b7ce32_420a4f9a043544b582974213497ae885~mv2.jpg/v1/fill/w_560,h_376,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/b7ce32_420a4f9a043544b582974213497ae885~mv2.jpg",
+    "code": "CAMA789",
+    "stock": 10,
+    "category": "Dormitorio",
+    "materiales": ["Madera contrachapada"],
+    "dimensiones": {
+      "ancho": 160,
+      "largo": 200,
+      "alto": 40
+    },
+    "colores": ["Blanco", "Gris"]
+  }
+]
